@@ -1,0 +1,6 @@
+url,prediction,message
+https://www.google.com,Potentially Legitimate,This URL appears more consistent with legitimate URLs in the training data.
+https://www.wikipedia.org,Potentially Legitimate,This URL appears more consistent with legitimate URLs in the training data.
+http://192.168.1.10/login,Potentially Phishing,Warning: this URL has characteristics associated with phishing.
+https://secure-example.com/verify-account,Potentially Phishing,Warning: this URL has characteristics associated with phishing.
+http://paypal-login-example.com/account/verify,Potentially Phishing,Warning: this URL has characteristics associated with phishing.
