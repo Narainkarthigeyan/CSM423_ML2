@@ -12,14 +12,8 @@ import joblib
 import pandas as pd
 import streamlit as st
 
-
-# =========================================================
-# 1. PAGE CONFIGURATION
-# =========================================================
-
 st.set_page_config(
-    page_title="PhishGuard AI",
-    page_icon="🛡️",
+    page_title="PhishGuard",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -34,10 +28,6 @@ SUSPICIOUS_WORDS = [
     "payment", "recover", "authenticate", "webscr"
 ]
 
-
-# =========================================================
-# 2. LOAD TRAINED MODEL
-# =========================================================
 
 @st.cache_resource
 def load_model():
@@ -54,11 +44,6 @@ def load_model():
 
     return model, feature_names
 
-
-# =========================================================
-# 3. URL FEATURE EXTRACTION
-# Must match the notebook's training implementation
-# =========================================================
 
 def extract_url_features(url):
     url = str(url).strip()
@@ -115,11 +100,6 @@ def extract_url_features(url):
         "double_slash_in_path": int("//" in path),
     }
 
-
-# =========================================================
-# 4. VALIDATE INPUT
-# =========================================================
-
 def validate_url(url):
     url = str(url).strip()
     if not url:
@@ -150,9 +130,6 @@ def validate_url(url):
     except ValueError:
         return False, "The URL format is invalid."
     return True, ""
-# =========================================================
-# 5. PREDICTION AND MODEL-DERIVED RISK SCORE
-# =========================================================
 
 def predict_url(url, model, feature_names):
     valid, error_message = validate_url(url)
@@ -208,11 +185,6 @@ def predict_url(url, model, feature_names):
     }
 
 
-# =========================================================
-# 6. EXPLAIN URL INDICATORS
-# These are heuristic indicators, not causal explanations.
-# =========================================================
-
 def explain_indicators(features):
     indicators = []
 
@@ -260,11 +232,6 @@ def get_risk_band(score):
     else:
         return "Lower model-indicated risk"
 
-
-# =========================================================
-# 7. SESSION STATE
-# =========================================================
-
 if "scan_history" not in st.session_state:
     st.session_state.scan_history = []
 
@@ -289,11 +256,8 @@ def add_to_history(result):
     st.session_state.scan_history.insert(0, record)
 
 
-# =========================================================
-# 8. SIDEBAR NAVIGATION
-# =========================================================
 
-st.sidebar.title("🛡️ PhishGuard AI")
+st.sidebar.title("PhishGuard")
 st.sidebar.caption("Phishing awareness and URL analysis")
 
 page = st.sidebar.radio(
@@ -314,10 +278,6 @@ st.sidebar.info(
 )
 
 
-# =========================================================
-# 9. LOAD MODEL
-# =========================================================
-
 try:
     model, feature_names = load_model()
 
@@ -335,10 +295,6 @@ except Exception as error:
     st.exception(error)
     st.stop()
 
-
-# =========================================================
-# 10. INTRODUCTION PAGE
-# =========================================================
 
 if page == "Introduction":
 
@@ -428,10 +384,6 @@ if page == "Introduction":
         "rules for identifying phishing."
     )
 
-
-# =========================================================
-# 11. URL ANALYZER PAGE
-# =========================================================
 
 elif page == "URL Analyzer":
 
@@ -597,10 +549,6 @@ elif page == "URL Analyzer":
         )
 
 
-# =========================================================
-# 12. BULK SCANNER PAGE
-# =========================================================
-
 elif page == "Bulk Scanner":
 
     st.title("Bulk URL Scanner")
@@ -758,10 +706,6 @@ elif page == "Bulk Scanner":
         )
 
 
-# =========================================================
-# 13. SCAN HISTORY PAGE
-# =========================================================
-
 elif page == "Scan History":
 
     st.title("Scan History")
@@ -828,9 +772,6 @@ elif page == "Scan History":
             st.rerun()
 
 
-# =========================================================
-# 14. ABOUT THE MODEL PAGE
-# =========================================================
 
 elif page == "About the Model":
 
@@ -893,11 +834,6 @@ elif page == "About the Model":
         "the results saved from your actual held-out test set. "
         "Do not treat example metrics as experimental results."
     )
-
-
-# =========================================================
-# 15. FOOTER
-# =========================================================
 
 st.markdown("---")
 
